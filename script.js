@@ -1,5 +1,6 @@
 const form = document.getElementById('task-form');
 const taskList = document.getElementById('task-list');
+const API_URL = "https://task-manager-backend-71o4.onrender.com/tasks";
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -9,7 +10,7 @@ form.addEventListener('submit', async (e) => {
     priority: document.getElementById('priority').value,
     category: document.getElementById('category').value,
   };
-  await fetch('http://localhost:3000/tasks', {
+  await fetch(API_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(task),
@@ -18,7 +19,7 @@ form.addEventListener('submit', async (e) => {
 });
 
 async function loadTasks() {
-  const res = await fetch('http://localhost:3000/tasks');
+  const res = await fetch(API_URL);
   const tasks = await res.json();
   taskList.innerHTML = '';
   tasks.forEach(task => {
@@ -29,3 +30,4 @@ async function loadTasks() {
 }
 
 loadTasks();
+
