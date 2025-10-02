@@ -1,0 +1,28 @@
+body {
+  background-color: #f8f9fa;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+#taskList li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.task-info {
+  flex-grow: 1;
+}
+
+.task-meta {
+  font-size: 0.9em;
+  color: #666;
+}
+
+button {
+  margin-left: 10px;
+}
