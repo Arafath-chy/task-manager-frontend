@@ -1,4 +1,11 @@
 const form = document.getElementById('taskForm');
+console.log("Form loaded:", form);
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  console.log("Add Task button clicked");
+  // rest of your code...
+});
+
 const taskList = document.getElementById('task-list');
 const API_URL = "https://task-manager-backend-71o4.onrender.com/tasks";
 
