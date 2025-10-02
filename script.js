@@ -10,12 +10,12 @@ form.addEventListener('submit', async (e) => {
     priority: document.getElementById('priority').value,
     category: document.getElementById('category').value,
   };
-  console.log("Submitting task:", task);
   await fetch(API_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(task),
   });
+  form.reset();
   loadTasks();
 });
 
@@ -25,7 +25,41 @@ async function loadTasks() {
   taskList.innerHTML = '';
   tasks.forEach(task => {
     const li = document.createElement('li');
-    li.textContent = `${task.title} (${task.priority}) - ${task.category}`;
+    li.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-center");
+
+    const info = document.createElement('div');
+    info.innerHTML = `<strong>${task.title}</strong> (${task.priority}) - ${task.category} <br><small>Due: ${task.dueDate}</small>`;
+
+    const controls = document.createElement('div');
+
+    const editBtn = document.createElement('button');
+    editBtn.textContent = "Edit";
+    editBtn.classList.add("btn", "btn-warning", "btn-sm", "me-2");
+    editBtn.onclick = async () => {
+      const newTitle = prompt("Enter new title:", task.title);
+      if (newTitle) {
+        await fetch(`${API_URL}/${task._id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...task, title: newTitle })
+        });
+        loadTasks();
+      }
+    };
+
+    const deleteBtn = document.createElement('button');
+    deleteBtn.textContent = "Delete";
+    deleteBtn.classList.add("btn", "btn-danger", "btn-sm");
+    deleteBtn.onclick = async () => {
+      await fetch(`${API_URL}/${task._id}`, { method: 'DELETE' });
+      loadTasks();
+    };
+
+    controls.appendChild(editBtn);
+    controls.appendChild(deleteBtn);
+
+    li.appendChild(info);
+    li.appendChild(controls);
     taskList.appendChild(li);
   });
 }
