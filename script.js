@@ -1,12 +1,5 @@
 const form = document.getElementById('taskForm');
-console.log("Form loaded:", form);
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  console.log("Add Task button clicked");
-  // rest of your code...
-});
-
-const taskList = document.getElementById('task-list');
+const taskList = document.getElementById('taskList');
 const API_URL = "https://task-manager-backend-71o4.onrender.com/tasks";
 
 form.addEventListener('submit', async (e) => {
@@ -17,6 +10,7 @@ form.addEventListener('submit', async (e) => {
     priority: document.getElementById('priority').value,
     category: document.getElementById('category').value,
   };
+  console.log("Submitting task:", task);
   await fetch(API_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -37,4 +31,3 @@ async function loadTasks() {
 }
 
 loadTasks();
-
