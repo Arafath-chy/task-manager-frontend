@@ -9,6 +9,7 @@ form.addEventListener('submit', async (e) => {
     dueDate: document.getElementById('dueDate').value,
     priority: document.getElementById('priority').value,
     category: document.getElementById('category').value,
+    description: document.getElementById('description').value
   };
   await fetch(API_URL, {
     method: 'POST',
