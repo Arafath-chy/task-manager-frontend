@@ -29,7 +29,7 @@ async function loadTasks() {
     li.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-center");
 
     const info = document.createElement('div');
-    info.innerHTML = `<strong>${task.title}</strong> (${task.priority}) - ${task.category} <br><small>Due: ${task.dueDate}</small>`;
+    info.innerHTML = `<strong>${task.title}</strong> (${task.priority}) - ${task.category} <br><small>Due: ${task.dueDate}</small> <br><em>${task.description}</em>`;
 
     const controls = document.createElement('div');
 
