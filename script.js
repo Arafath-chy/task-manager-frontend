@@ -23,6 +23,7 @@ form.addEventListener('submit', async (e) => {
 async function loadTasks() {
   const res = await fetch(API_URL);
   const tasks = await res.json();
+  tasks.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));  // ✅ Sort by date
   taskList.innerHTML = '';
   tasks.forEach(task => {
     const li = document.createElement('li');
