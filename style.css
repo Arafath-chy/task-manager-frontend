@@ -67,24 +67,100 @@ em {
 }
 
 :root {
-  --bg-color: #ffffff;
+  --bg-color: #e0eafc;
+  --gradient-color: linear-gradient(to right, #e0eafc, #cfdef3);
   --text-color: #000000;
-  --card-bg: #f8f9fa;
+  --card-bg: #ffffffcc;
+  --input-bg: #ffffff;
+  --input-border: #ccc;
+  --accent-color: #007bff;
 }
 
 body {
-  background-color: var(--bg-color);
+  background: var(--gradient-color);
   color: var(--text-color);
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+body.dark-mode {
+  --bg-color: #121212;
+  --gradient-color: linear-gradient(to right, #1e1e1e, #2c2c2c);
+  --text-color: #f0f0f0;
+  --card-bg: #1e1e1ecc;
+  --input-bg: #2c2c2c;
+  --input-border: #555;
+  --accent-color: #66b2ff;
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 30px;
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+form input,
+form select,
+form textarea {
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  border-radius: 8px;
+  border: 1px solid var(--input-border);
+  transition: box-shadow 0.3s ease;
+}
+
+form input:focus,
+form select:focus,
+form textarea:focus {
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  outline: none;
+}
+
+button {
+  border-radius: 8px;
+  transition: transform 0.2s ease;
+  color: var(--text-color);
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+#taskList li {
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.3s ease;
+}
+
+#taskList li:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.task-meta {
+  font-size: 0.9em;
+  color: var(--text-color);
+}
+
+em {
+  color: var(--accent-color);
+  font-style: normal;
 }
 
 .list-group-item {
   background-color: var(--card-bg);
-  border-color: #ccc;
-}
-
-/* Dark mode overrides */
-body.dark-mode {
-  --bg-color: #121212;
-  --text-color: #f0f0f0;
-  --card-bg: #1e1e1e;
+  color: var(--text-color);
+  border-color: var(--input-border);
 }
