@@ -35,7 +35,8 @@ async function loadTasks() {
 
     // ✅ Edit Button
     const editBtn = document.createElement('button');
-    editBtn.textContent = "Edit";
+    editBtn.innerHTML = `<i class="bi bi-pencil-square"></i> Edit`;
+    //editBtn.textContent = "Edit";
     editBtn.classList.add("btn", "btn-warning", "btn-sm", "me-2");
     editBtn.onclick = async () => {
       const newTitle = prompt("Edit task title:", task.title);
@@ -60,7 +61,8 @@ async function loadTasks() {
 
     // ✅ Delete Button
     const deleteBtn = document.createElement('button');
-    deleteBtn.textContent = "Delete";
+    deleteBtn.innerHTML = `<i class="bi bi-trash"></i> Delete`;
+    //deleteBtn.textContent = "Delete";
     deleteBtn.classList.add("btn", "btn-danger", "btn-sm");
     deleteBtn.onclick = async () => {
       await fetch(`${API_URL}/${task._id}`, { method: 'DELETE' });
