@@ -80,7 +80,22 @@ async function loadTasks() {
     li.appendChild(controls);
     taskList.appendChild(li);
   });
+  const calendarEl = document.getElementById('calendar');
+  calendarEl.innerHTML = ''; // Clear previous calendar if reloading
+
+  const calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: 'dayGridMonth',
+    height: 500,
+    events: tasks.map(task => ({
+      title: task.title,
+      start: task.dueDate,
+      description: task.description
+    })),
+    eventClick: function(info) {
+      alert(`${info.event.title}\n${info.event.extendedProps.description}`);
+    }
+  });
+  calendar.render();
 }
 
 loadTasks();
-
