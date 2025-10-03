@@ -43,6 +43,8 @@ async function loadTasks() {
       const newDueDate = prompt("Edit due date:", task.dueDate);
       const newPriority = prompt("Edit priority:", task.priority);
       const newCategory = prompt("Edit category:", task.category);
+      const newDescription = prompt("Edit description/reminder:", task.description);
+
 
       if (newTitle && newDueDate && newPriority && newCategory) {
         await fetch(`${API_URL}/${task._id}`, {
@@ -52,7 +54,8 @@ async function loadTasks() {
             title: newTitle,
             dueDate: newDueDate,
             priority: newPriority,
-            category: newCategory
+            category: newCategory,
+            description: newDescription
           })
         });
         loadTasks();
