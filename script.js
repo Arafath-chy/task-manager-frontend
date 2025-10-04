@@ -32,12 +32,37 @@ async function loadTasks() {
     const info = document.createElement('div');
     info.innerHTML = `<strong>${task.title}</strong> (${task.priority}) - ${task.category} <br><small>Due: ${task.dueDate}</small> <br><em>${task.description}</em>`;
 
+    // ✅ Checkbox for completion
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.checked = task.completed;
+    checkbox.classList.add("form-check-input", "me-2");
+    checkbox.onclick = async () => {
+      await fetch(`${API_URL}/${task._id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ completed: checkbox.checked })
+      });
+      loadTasks();
+    };
+
+    // ✅ Style completed tasks
+    if (task.completed) {
+      info.style.textDecoration = "line-through";
+      info.style.opacity = "0.6";
+    }
+
+    // ✅ Combine checkbox and info
+    const taskContent = document.createElement('div');
+    taskContent.classList.add("d-flex", "align-items-center");
+    taskContent.appendChild(checkbox);
+    taskContent.appendChild(info);
+
     const controls = document.createElement('div');
 
     // ✅ Edit Button
     const editBtn = document.createElement('button');
     editBtn.innerHTML = `<i class="bi bi-pencil-square"></i> Edit`;
-    //editBtn.textContent = "Edit";
     editBtn.classList.add("btn", "btn-warning", "btn-sm", "me-2");
     editBtn.onclick = async () => {
       const newTitle = prompt("Edit task title:", task.title);
@@ -45,7 +70,6 @@ async function loadTasks() {
       const newPriority = prompt("Edit priority:", task.priority);
       const newCategory = prompt("Edit category:", task.category);
       const newDescription = prompt("Edit description/reminder:", task.description);
-
 
       if (newTitle && newDueDate && newPriority && newCategory) {
         await fetch(`${API_URL}/${task._id}`, {
@@ -66,7 +90,6 @@ async function loadTasks() {
     // ✅ Delete Button
     const deleteBtn = document.createElement('button');
     deleteBtn.innerHTML = `<i class="bi bi-trash"></i> Delete`;
-    //deleteBtn.textContent = "Delete";
     deleteBtn.classList.add("btn", "btn-danger", "btn-sm");
     deleteBtn.onclick = async () => {
       await fetch(`${API_URL}/${task._id}`, { method: 'DELETE' });
@@ -76,10 +99,11 @@ async function loadTasks() {
     controls.appendChild(editBtn);
     controls.appendChild(deleteBtn);
 
-    li.appendChild(info);
+    li.appendChild(taskContent);  // ✅ Replaces li.appendChild(info)
     li.appendChild(controls);
     taskList.appendChild(li);
   });
+
   const calendarEl = document.getElementById('calendar');
   calendarEl.innerHTML = ''; // Clear previous calendar if reloading
 
@@ -98,9 +122,9 @@ async function loadTasks() {
   calendar.render();
 }
 
-  const toggleBtn = document.getElementById('darkModeToggle');
-  toggleBtn.addEventListener('click', () => {
-    document.body.classList.toggle('dark-mode');
-  });
+const toggleBtn = document.getElementById('darkModeToggle');
+toggleBtn.addEventListener('click', () => {
+  document.body.classList.toggle('dark-mode');
+});
 
 loadTasks();
