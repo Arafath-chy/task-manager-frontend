@@ -2,7 +2,6 @@ const form = document.getElementById('taskForm');
 const taskList = document.getElementById('taskList');
 const API_URL = "https://task-manager-backend-71o4.onrender.com/tasks";
 
-// ✅ Submit new task
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   const task = {
@@ -21,16 +20,28 @@ form.addEventListener('submit', async (e) => {
   loadTasks();
 });
 
-// ✅ Load and render tasks
 async function loadTasks() {
   const res = await fetch(API_URL);
   const tasks = await res.json();
   tasks.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
 
-  // ✅ Apply filters
+  const totalCount = tasks.length;
+  const completedCount = tasks.filter(t => t.completed).length;
+  const pendingCount = totalCount - completedCount;
+  const progressPercent = totalCount ? Math.round((completedCount / totalCount) * 100) : 0;
+
+  document.getElementById('totalCount').textContent = totalCount;
+  document.getElementById('completedCount').textContent = completedCount;
+  document.getElementById('pendingCount').textContent = pendingCount;
+
+  const progressBar = document.getElementById('progressBar');
+  progressBar.style.width = `${progressPercent}%`;
+  progressBar.textContent = `${progressPercent}%`;
+
   const categoryFilter = document.getElementById('filterCategory').value;
   const priorityFilter = document.getElementById('filterPriority').value;
   const statusFilter = document.getElementById('filterStatus').value;
+  const searchQuery = document.getElementById('searchInput').value.toLowerCase();
 
   const filteredTasks = tasks.filter(task => {
     const matchCategory = categoryFilter ? task.category === categoryFilter : true;
@@ -43,9 +54,15 @@ async function loadTasks() {
     return matchCategory && matchPriority && matchStatus;
   });
 
+  const searchedTasks = filteredTasks.filter(task => {
+    const inTitle = task.title.toLowerCase().includes(searchQuery);
+    const inDescription = task.description.toLowerCase().includes(searchQuery);
+    return inTitle || inDescription;
+  });
+
   taskList.innerHTML = '';
 
-  filteredTasks.forEach(task => {
+  searchedTasks.forEach(task => {
     const li = document.createElement('li');
     li.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-center");
 
@@ -118,14 +135,13 @@ async function loadTasks() {
     taskList.appendChild(li);
   });
 
-  // ✅ Calendar view
   const calendarEl = document.getElementById('calendar');
   calendarEl.innerHTML = '';
 
   const calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
     height: 500,
-    events: filteredTasks.map(task => ({
+    events: searchedTasks.map(task => ({
       title: task.title,
       start: task.dueDate,
       description: task.description
@@ -137,15 +153,14 @@ async function loadTasks() {
   calendar.render();
 }
 
-// ✅ Dark mode toggle
 const toggleBtn = document.getElementById('darkModeToggle');
 toggleBtn.addEventListener('click', () => {
   document.body.classList.toggle('dark-mode');
 });
 
-// ✅ Filter listeners
 document.getElementById('filterCategory').addEventListener('change', loadTasks);
 document.getElementById('filterPriority').addEventListener('change', loadTasks);
 document.getElementById('filterStatus').addEventListener('change', loadTasks);
+document.getElementById('searchInput').addEventListener('input', loadTasks);
 
 loadTasks();
