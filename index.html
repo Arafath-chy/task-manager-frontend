@@ -48,6 +48,28 @@
       <div class="col-md-2">
         <button type="submit" class="btn btn-primary w-100">Add Task</button>
       </div>
+
+      <div class="mb-3 d-flex gap-3">
+        <select id="filterCategory" class="form-select w-auto">
+          <option value="">All Categories</option>
+          <option value="Work">Work</option>
+          <option value="Personal">Personal</option>
+          <option value="Urgent">Urgent</option>
+        </select>
+
+        <select id="filterPriority" class="form-select w-auto">
+          <option value="">All Priorities</option>
+          <option value="High">High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+        </select>
+
+        <select id="filterStatus" class="form-select w-auto">
+          <option value="">All Statuses</option>
+          <option value="Completed">Completed</option>
+          <option value="Pending">Pending</option>
+        </select>
+      </div>
     </form>
 
     <ul id="taskList" class="list-group"></ul>

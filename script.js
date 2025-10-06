@@ -2,6 +2,7 @@ const form = document.getElementById('taskForm');
 const taskList = document.getElementById('taskList');
 const API_URL = "https://task-manager-backend-71o4.onrender.com/tasks";
 
+// ✅ Submit new task
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   const task = {
@@ -20,19 +21,37 @@ form.addEventListener('submit', async (e) => {
   loadTasks();
 });
 
+// ✅ Load and render tasks
 async function loadTasks() {
   const res = await fetch(API_URL);
   const tasks = await res.json();
-  tasks.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));  // ✅ Sort by date
+  tasks.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+
+  // ✅ Apply filters
+  const categoryFilter = document.getElementById('filterCategory').value;
+  const priorityFilter = document.getElementById('filterPriority').value;
+  const statusFilter = document.getElementById('filterStatus').value;
+
+  const filteredTasks = tasks.filter(task => {
+    const matchCategory = categoryFilter ? task.category === categoryFilter : true;
+    const matchPriority = priorityFilter ? task.priority === priorityFilter : true;
+    const matchStatus = statusFilter
+      ? statusFilter === "Completed"
+        ? task.completed
+        : !task.completed
+      : true;
+    return matchCategory && matchPriority && matchStatus;
+  });
+
   taskList.innerHTML = '';
-  tasks.forEach(task => {
+
+  filteredTasks.forEach(task => {
     const li = document.createElement('li');
     li.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-center");
 
     const info = document.createElement('div');
     info.innerHTML = `<strong>${task.title}</strong> (${task.priority}) - ${task.category} <br><small>Due: ${task.dueDate}</small> <br><em>${task.description}</em>`;
 
-    // ✅ Checkbox for completion
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.checked = task.completed;
@@ -46,21 +65,16 @@ async function loadTasks() {
       loadTasks();
     };
 
-    // ✅ Style completed tasks
     if (task.completed) {
       info.style.textDecoration = "line-through";
       info.style.opacity = "0.6";
     }
 
-    // ✅ Combine checkbox and info
     const taskContent = document.createElement('div');
     taskContent.classList.add("d-flex", "align-items-center");
     taskContent.appendChild(checkbox);
     taskContent.appendChild(info);
 
-    const controls = document.createElement('div');
-
-    // ✅ Edit Button
     const editBtn = document.createElement('button');
     editBtn.innerHTML = `<i class="bi bi-pencil-square"></i> Edit`;
     editBtn.classList.add("btn", "btn-warning", "btn-sm", "me-2");
@@ -87,7 +101,6 @@ async function loadTasks() {
       }
     };
 
-    // ✅ Delete Button
     const deleteBtn = document.createElement('button');
     deleteBtn.innerHTML = `<i class="bi bi-trash"></i> Delete`;
     deleteBtn.classList.add("btn", "btn-danger", "btn-sm");
@@ -96,21 +109,23 @@ async function loadTasks() {
       loadTasks();
     };
 
+    const controls = document.createElement('div');
     controls.appendChild(editBtn);
     controls.appendChild(deleteBtn);
 
-    li.appendChild(taskContent);  // ✅ Replaces li.appendChild(info)
+    li.appendChild(taskContent);
     li.appendChild(controls);
     taskList.appendChild(li);
   });
 
+  // ✅ Calendar view
   const calendarEl = document.getElementById('calendar');
-  calendarEl.innerHTML = ''; // Clear previous calendar if reloading
+  calendarEl.innerHTML = '';
 
   const calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
     height: 500,
-    events: tasks.map(task => ({
+    events: filteredTasks.map(task => ({
       title: task.title,
       start: task.dueDate,
       description: task.description
@@ -122,9 +137,15 @@ async function loadTasks() {
   calendar.render();
 }
 
+// ✅ Dark mode toggle
 const toggleBtn = document.getElementById('darkModeToggle');
 toggleBtn.addEventListener('click', () => {
   document.body.classList.toggle('dark-mode');
 });
+
+// ✅ Filter listeners
+document.getElementById('filterCategory').addEventListener('change', loadTasks);
+document.getElementById('filterPriority').addEventListener('change', loadTasks);
+document.getElementById('filterStatus').addEventListener('change', loadTasks);
 
 loadTasks();
