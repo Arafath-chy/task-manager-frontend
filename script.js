@@ -144,17 +144,47 @@ async function loadTasks() {
     events: searchedTasks.map(task => ({
       title: task.title,
       start: task.dueDate,
-      description: task.description
+      description: task.description,
+      _id: task._id
     })),
     eventClick: function(info) {
-      alert(`${info.event.title}\n${info.event.extendedProps.description}`);
+      const taskId = info.event.extendedProps._id;
+      const taskTitle = info.event.title;
+      const taskDesc = info.event.extendedProps.description;
+      const taskDate = info.event.startStr;
+
+      const action = confirm(`${taskTitle}\n\n${taskDesc}\n\nClick OK to edit, Cancel to delete.`);
+
+      if (action) {
+        const newTitle = prompt("Edit task title:", taskTitle);
+        const newDescription = prompt("Edit description:", taskDesc);
+        const newDate = prompt("Edit due date (YYYY-MM-DD):", taskDate);
+
+        if (newTitle && newDate) {
+          fetch(`${API_URL}/${taskId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              title: newTitle,
+              description: newDescription,
+              dueDate: newDate
+            })
+          }).then(loadTasks);
+        }
+      } else {
+        const confirmDelete = confirm("Are you sure you want to delete this task?");
+        if (confirmDelete) {
+          fetch(`${API_URL}/${taskId}`, {
+            method: 'DELETE'
+          }).then(loadTasks);
+        }
+      }
     }
   });
   calendar.render();
 }
 
-const toggleBtn = document.getElementById('darkModeToggle');
-toggleBtn.addEventListener('click', () => {
+document.getElementById('darkModeToggle').addEventListener('click', () => {
   document.body.classList.toggle('dark-mode');
 });
 
@@ -162,5 +192,13 @@ document.getElementById('filterCategory').addEventListener('change', loadTasks);
 document.getElementById('filterPriority').addEventListener('change', loadTasks);
 document.getElementById('filterStatus').addEventListener('change', loadTasks);
 document.getElementById('searchInput').addEventListener('input', loadTasks);
+
+document.getElementById('clearFilters').addEventListener('click', () => {
+  document.getElementById('filterCategory').value = '';
+  document.getElementById('filterPriority').value = '';
+  document.getElementById('filterStatus').value = '';
+  document.getElementById('searchInput').value = '';
+  loadTasks();
+});
 
 loadTasks();
