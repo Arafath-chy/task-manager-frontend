@@ -1,6 +1,44 @@
+const firebaseConfig = {
+  apiKey: "AIzaSyB_vcRRtPynj_W_qGBoLVmbr7O-MZgxQGQ",
+  authDomain: "taskmanager-9af8f.firebaseapp.com",
+  projectId: "taskmanager-9af8f",
+  storageBucket: "taskmanager-9af8f.firebasestorage.app",
+  messagingSenderId: "224989554121",
+  appId: "1:224989554121:web:cf4e4c07c9176632ed7418",
+  measurementId: "G-6ME9NF70LE"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+
 const form = document.getElementById('taskForm');
 const taskList = document.getElementById('taskList');
 const API_URL = "https://task-manager-backend-71o4.onrender.com/tasks";
+
+document.getElementById('loginGoogle').addEventListener('click', () => {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  auth.signInWithPopup(provider);
+});
+
+document.getElementById('logout').addEventListener('click', () => {
+  auth.signOut();
+});
+
+auth.onAuthStateChanged(user => {
+  if (user) {
+    document.getElementById('authStatus').textContent = `Signed in as ${user.displayName}`;
+    form.style.display = 'block';
+    document.getElementById('logout').style.display = 'inline-block';
+    document.getElementById('loginGoogle').style.display = 'none';
+    loadTasks();
+  } else {
+    document.getElementById('authStatus').textContent = 'Not signed in';
+    form.style.display = 'none';
+    taskList.innerHTML = '';
+    document.getElementById('logout').style.display = 'none';
+    document.getElementById('loginGoogle').style.display = 'inline-block';
+  }
+});
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
