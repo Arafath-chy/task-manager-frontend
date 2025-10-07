@@ -30,6 +30,7 @@ auth.onAuthStateChanged(user => {
     form.style.display = 'block';
     document.getElementById('logout').style.display = 'inline-block';
     document.getElementById('loginGoogle').style.display = 'none';
+    document.getElementById('calendar').style.display = 'block';
     loadTasks();
   } else {
     document.getElementById('authStatus').textContent = 'Not signed in';
@@ -37,17 +38,22 @@ auth.onAuthStateChanged(user => {
     taskList.innerHTML = '';
     document.getElementById('logout').style.display = 'none';
     document.getElementById('loginGoogle').style.display = 'inline-block';
+    document.getElementById('calendar').style.display = 'none';
   }
 });
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
+  const user = auth.currentUser;
+  if (!user) return;
+
   const task = {
     title: document.getElementById('title').value,
     dueDate: document.getElementById('dueDate').value,
     priority: document.getElementById('priority').value,
     category: document.getElementById('category').value,
-    description: document.getElementById('description').value
+    description: document.getElementById('description').value,
+    userId: user.uid
   };
   await fetch(API_URL, {
     method: 'POST',
@@ -59,8 +65,12 @@ form.addEventListener('submit', async (e) => {
 });
 
 async function loadTasks() {
+  const user = auth.currentUser;
+  if (!user) return;
+
   const res = await fetch(API_URL);
-  const tasks = await res.json();
+  const allTasks = await res.json();
+  const tasks = allTasks.filter(t => t.userId === user.uid);
   tasks.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
 
   const totalCount = tasks.length;
