@@ -1,3 +1,4 @@
+/* 🎨 Theme Variables */
 :root {
   --bg-color: #e0eafc;
   --gradient-color: linear-gradient(to right, #e0eafc, #cfdef3);
@@ -22,6 +23,7 @@ body.dark-mode {
   --summary-text: #f0f0f0;
 }
 
+/* 🧱 Base Styles */
 body {
   background: var(--gradient-color);
   color: var(--text-color);
@@ -31,21 +33,31 @@ body {
   transition: background-color 0.4s ease, color 0.4s ease;
 }
 
+h1, h2 {
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--accent-color);
+  padding-bottom: 8px;
+}
+
+/* 📦 Container */
 .container {
-  max-width: 800px;
+  max-width: 1000px;
   margin: auto;
-  padding: 30px;
+  padding: 40px;
   background-color: var(--card-bg);
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   transition: background-color 0.4s ease, color 0.4s ease;
 }
 
-h1 {
-  font-weight: 600;
-  color: var(--text-color);
-}
-
+/* 📝 Form Inputs */
 form input,
 form select,
 form textarea {
@@ -63,10 +75,11 @@ form textarea:focus {
   outline: none;
 }
 
+/* 🔘 Buttons */
 button {
   border-radius: 8px;
-  transition: transform 0.2s ease, background-color 0.4s ease, color 0.4s ease;
   color: var(--text-color);
+  transition: transform 0.2s ease, background-color 0.4s ease, color 0.4s ease;
 }
 
 button:hover {
@@ -77,6 +90,7 @@ button:active {
   transform: scale(0.97);
 }
 
+/* ✅ Task Cards */
 #taskList li {
   background-color: var(--input-bg);
   color: var(--text-color);
@@ -97,6 +111,47 @@ button:active {
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* 📊 Progress Summary */
+.progress-box {
+  background-color: var(--summary-bg);
+  color: var(--summary-text);
+  border: 1px solid var(--input-border);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+#progressBar {
+  transition: width 0.5s ease-in-out;
+}
+
+/* 📅 Calendar */
+#calendar {
+  background-color: var(--card-bg);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+.fc-event:hover {
+  background-color: var(--accent-color) !important;
+  color: white !important;
+  cursor: pointer;
+  transform: scale(1.02);
+  transition: all 0.2s ease-in-out;
+}
+
+/* 📋 List Items */
+.list-group-item {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  border-color: var(--input-border);
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* 📌 Task Meta */
 .task-meta {
   font-size: 0.9em;
   color: var(--text-color);
@@ -107,33 +162,7 @@ em {
   font-style: normal;
 }
 
-.list-group-item {
-  background-color: var(--card-bg);
-  color: var(--text-color);
-  border-color: var(--input-border);
-  transition: background-color 0.4s ease, color 0.4s ease;
-}
-
-.progress-box {
-  background-color: var(--summary-bg);
-  color: var(--summary-text);
-  border: 1px solid var(--input-border);
-  transition: background-color 0.4s ease, color 0.4s ease;
-}
-
-#progressBar {
-  transition: width 0.5s ease-in-out;
-}
-
-.fc-event:hover {
-  background-color: #007bff !important;
-  color: white !important;
-  cursor: pointer;
-  transform: scale(1.02);
-  transition: all 0.2s ease-in-out;
-}
-
-/* 🌟 Layout spacing between major sections */
+/* 📐 Section Spacing */
 form,
 #progressSummary,
 #taskList,
@@ -141,31 +170,7 @@ form,
   margin-bottom: 40px;
 }
 
-/* 📦 Enhanced container for dashboard feel */
-.container {
-  max-width: 1000px;
-  padding: 40px;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-}
-
-/* 🗂️ Card-style calendar */
-#calendar {
-  background-color: var(--card-bg);
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
-  transition: background-color 0.4s ease, color 0.4s ease;
-}
-
-/* 📊 Progress summary box spacing */
-#progressSummary {
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-}
-
-/* 📱 Responsive filter layout */
+/* 📱 Responsive Layout */
 @media (max-width: 768px) {
   .mb-3.d-flex.gap-3 {
     flex-direction: column;
@@ -176,14 +181,4 @@ form,
     width: 100%;
     margin-bottom: 10px;
   }
-}
-
-/* 🧠 Optional: Section headers */
-h2 {
-  font-size: 1.5rem;
-  margin-top: 40px;
-  margin-bottom: 20px;
-  color: var(--text-color);
-  border-bottom: 2px solid var(--accent-color);
-  padding-bottom: 8px;
 }

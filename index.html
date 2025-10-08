@@ -4,15 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Task Manager</title>
+
+  <!-- Bootstrap & Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+  <!-- FullCalendar -->
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container my-5">
 
+    <!-- Auth Status & Controls -->
     <div class="d-flex justify-content-between align-items-center mb-4">
       <div id="authStatus" class="text-muted">Not signed in</div>
       <div>
@@ -21,43 +28,36 @@
       </div>
     </div>
 
+    <!-- Dark Mode Toggle -->
     <div class="d-flex justify-content-end mb-3">
-      <button id="darkModeToggle" class="btn btn-outline-secondary">
-        🌙 Toggle Dark Mode
-      </button>
+      <button id="darkModeToggle" class="btn btn-outline-secondary">🌙 Toggle Dark Mode</button>
     </div>
 
+    <!-- Title -->
     <h1 class="text-center mb-4">Task Manager</h1>
 
-    <form id="taskForm" class="row g-3 mb-4">
-      <div class="col-md-3">
-        <input type="text" id="title" class="form-control" placeholder="Task Title" required />
-      </div>
-      <div class="col-md-2">
-        <select id="category" class="form-select">
+    <!-- Task Form -->
+    <form id="taskForm" class="mb-4">
+      <div class="d-flex flex-wrap gap-3 mb-3">
+        <input type="text" id="title" class="form-control flex-grow-1" placeholder="Task Title" required />
+        <select id="category" class="form-select w-auto">
           <option value="Work">Work</option>
           <option value="Personal">Personal</option>
           <option value="Urgent">Urgent</option>
         </select>
-      </div>
-      <div class="col-md-2">
-        <select id="priority" class="form-select">
+        <select id="priority" class="form-select w-auto">
           <option value="Low">Low</option>
           <option value="Medium">Medium</option>
           <option value="High">High</option>
         </select>
-      </div>
-      <div class="col-md-3">
-        <input type="date" id="dueDate" class="form-control" />
-      </div>
-      <div class="col-md-12">
-        <textarea id="description" class="form-control" rows="2" placeholder="Task Description or Reminder..."></textarea>
-      </div>
-      <div class="col-md-2">
-        <button type="submit" class="btn btn-primary w-100">Add Task</button>
+        <input type="date" id="dueDate" class="form-control w-auto" />
       </div>
 
-      <div class="mb-3 d-flex gap-3">
+      <textarea id="description" class="form-control mb-3" rows="2" placeholder="Task Description or Reminder..."></textarea>
+      <button type="submit" class="btn btn-primary">Add Task</button>
+
+      <!-- Filters -->
+      <div class="mb-3 d-flex flex-wrap gap-3 mt-4">
         <select id="filterCategory" class="form-select w-auto">
           <option value="">All Categories</option>
           <option value="Work">Work</option>
@@ -78,16 +78,16 @@
           <option value="Pending">Pending</option>
         </select>
 
-        <button id="clearFilters" class="btn btn-outline-secondary">
-          🔄 Clear Filters
-        </button>
+        <button id="clearFilters" class="btn btn-outline-secondary">🔄 Clear Filters</button>
       </div>
     </form>
 
+    <!-- Search -->
     <div class="mb-3">
       <input type="text" id="searchInput" class="form-control" placeholder="🔍 Search tasks by title or description">
     </div>
 
+    <!-- Progress Summary -->
     <div id="progressSummary" class="mb-4 p-3 rounded progress-box">
       <h5 class="mb-2">📊 Progress Summary</h5>
       <div class="mb-1">
@@ -102,16 +102,23 @@
       </div>
     </div>
 
+    <!-- Task List -->
+    <h2 class="mt-5 mb-3">📋 Your Tasks</h2>
     <ul id="taskList" class="list-group"></ul>
 
-    <h2 class="mt-5">Calendar View</h2>
-    <div id="calendar" style="display: none;"></div>
+    <!-- Calendar -->
+    <h2 class="mt-5 mb-3">📅 Calendar View</h2>
+    <div id="calendar" class="mt-3"></div>
   </div>
 
+  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-auth-compat.js"></script>
+
+  <!-- App Script -->
   <script src="script.js"></script>
 
+  <!-- Footer -->
   <footer class="text-center mt-5 text-muted">
     <small>© 2025 Task Manager by Arafath Chowdhury</small>
   </footer>
