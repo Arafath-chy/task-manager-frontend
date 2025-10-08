@@ -68,7 +68,7 @@ async function loadTasks() {
   const user = auth.currentUser;
   if (!user) return;
 
-  const res = await fetch(API_URL);
+  const res = await fetch(`${API_URL}?userId=${user.uid}`);
   const allTasks = await res.json();
   const tasks = allTasks.filter(t => t.userId === user.uid);
   tasks.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
@@ -249,4 +249,5 @@ document.getElementById('clearFilters').addEventListener('click', () => {
   loadTasks();
 });
 
-loadTasks();
+auth.onAuthStateChanged(() => {});
+
