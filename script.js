@@ -27,20 +27,21 @@ document.getElementById('logout').addEventListener('click', () => {
 auth.onAuthStateChanged(user => {
   if (user) {
     document.getElementById('authStatus').textContent = `Signed in as ${user.displayName}`;
-    form.style.display = 'block';
+    form.style.display = 'block'; // ✅ Always show form when signed in
     document.getElementById('logout').style.display = 'inline-block';
     document.getElementById('loginGoogle').style.display = 'none';
     document.getElementById('calendar').style.display = 'block';
     loadTasks();
   } else {
     document.getElementById('authStatus').textContent = 'Not signed in';
-    form.style.display = 'none';
+    form.style.display = 'block'; // ✅ Show form even when signed out (optional)
     taskList.innerHTML = '';
     document.getElementById('logout').style.display = 'none';
     document.getElementById('loginGoogle').style.display = 'inline-block';
     document.getElementById('calendar').style.display = 'none';
   }
 });
+
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
