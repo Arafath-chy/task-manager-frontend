@@ -132,3 +132,58 @@ em {
   transform: scale(1.02);
   transition: all 0.2s ease-in-out;
 }
+
+/* 🌟 Layout spacing between major sections */
+form,
+#progressSummary,
+#taskList,
+#calendar {
+  margin-bottom: 40px;
+}
+
+/* 📦 Enhanced container for dashboard feel */
+.container {
+  max-width: 1000px;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* 🗂️ Card-style calendar */
+#calendar {
+  background-color: var(--card-bg);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* 📊 Progress summary box spacing */
+#progressSummary {
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* 📱 Responsive filter layout */
+@media (max-width: 768px) {
+  .mb-3.d-flex.gap-3 {
+    flex-direction: column;
+  }
+
+  form .col-md-3,
+  form .col-md-2 {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
+
+/* 🧠 Optional: Section headers */
+h2 {
+  font-size: 1.5rem;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  color: var(--text-color);
+  border-bottom: 2px solid var(--accent-color);
+  padding-bottom: 8px;
+}
