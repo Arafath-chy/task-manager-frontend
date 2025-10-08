@@ -169,12 +169,14 @@ async function loadTasks(user) {
   calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
     height: 500,
-    events: filtered.map(task => ({
-      title: task.title,
-      start: task.dueDate,
-      description: task.description,
-      _id: task._id
-    })),
+    events: tasks
+      .filter(task => task.dueDate)
+      .map(task => ({
+        title: task.title,
+        start: task.dueDate,
+        description: task.description,
+        _id: task._id
+      })),
     eventClick: function(info) {
       const taskId = info.event.extendedProps._id;
       const taskTitle = info.event.title;
